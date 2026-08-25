@@ -193,10 +193,9 @@ boundary validation。
   OxDM as the independent opposing-policy check.
 - **What stays local:** open/close policy, disabled or busy states, markup, CSS, panel contents,
   Escape meaning, focus behavior and accessibility composition.
-- **Next gate:** implement the accepted pure state API from
-  `docs/active/DCA-002-backdrop-dismiss.md`, then adopt it in Gentle Cards and an independent
-  Deductree app surface. Diolama may mirror the truth table internally while the shared crate
-  remains private and therefore unsuitable for its publishable package contract.
+- **Next gate:** run the pointer-drag runtime matrix in one Cards/Gentle WebView or browser and
+  one Deductree/Diolama desktop surface. The shared crate and all source adapters compile and
+  pass their automated gates; runtime event wiring is the remaining `Done` gate.
 
 ### `DCA-003` Product preferences backend/result boundary
 
@@ -540,8 +539,8 @@ When reviewing a request:
 
 ## 8. Current focus
 
-- **Active implementation:** `DCA-002` has an accepted pure pointer-state boundary. Build and
-  adopt only that state machine; rendered modal, focus and toast behavior remain out of scope.
+- **Active validation:** `DCA-002` implementation and source adoption are complete; run the
+  cross-boundary pointer-drag runtime matrix before marking it `Done`.
 - **Queued completion gates:** `DCA-001` Cards and Gentle use one pinned private Git revision
   and pass authenticated clean CI；manual CJK and independent-lineage validation remain open.
 - **Prospective workflow validation:** `DCA-011` on the next real persisted-data change.

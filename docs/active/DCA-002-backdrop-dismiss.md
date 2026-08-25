@@ -6,6 +6,22 @@ Catalog：`DCA-002`
 
 Validation：`docs/validation/DCA-002-transient-surface-boundary.md`
 
+## Progress
+
+- Shared crate implemented at
+  `0d2adc322b6f14057b59b0005cf8e19d9b46a6c5` with six pure tests and no
+  dependencies.
+- Gentle Cards adopted the state in its modal primitive, Card Zoom and Scry
+  finish overlays at `9649afc`.
+- Gentle adopted the state in its modal primitive at `a2a3839`.
+- Deductree app adopted the shared crate in journal, asset-library and nested
+  cast-library overlays; Diolama mirrors the same private state in confirmation,
+  settings, log, present, save and system-menu overlays at `354fd43`.
+- OxDM remains unchanged because its panel stops the initial `mousedown` and the
+  backdrop closes immediately only when that down begins outside.
+- All automated package and consumer gates pass.
+- Runtime pointer-drag smoke remains open.
+
 ## Scope
 
 Create one renderer-neutral pointer-state crate that emits a dismiss intent

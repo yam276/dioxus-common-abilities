@@ -167,3 +167,34 @@ This boundary validation passes when:
 All criteria above are satisfied. `DCA-002` may move to `Planned`; its executable
 plan is `docs/active/DCA-002-backdrop-dismiss.md`. The next work is the pure
 state crate and consumer adapters, not a modal component and not a toast crate.
+
+## Implementation evidence
+
+The accepted boundary is implemented and pinned at shared revision
+`0d2adc322b6f14057b59b0005cf8e19d9b46a6c5`.
+
+| Consumer | Commit | Covered surfaces | Automated verification |
+|---|---|---|---|
+| Gentle Cards | `9649afc` | modal primitive, Card Zoom, Scry finish/preview | Clippy, native tests (109), wasm32 web check |
+| Gentle | `a2a3839` | modal primitive | default and `adult` Clippy/tests (63/85) |
+| Deductree app | `354fd43` | journal, asset library, cast library and nested asset picker | app Clippy with warnings denied |
+| Diolama | `354fd43` | confirmation, settings, log, present, save and system menu | Clippy and 622 tests, including private state truth-table tests |
+| OxDM | unchanged at comparison revision | central `DialogOverlay` | source inspection confirms close-on-backdrop-`mousedown` already rejects inside starts |
+
+The Diolama state is intentionally private and locally mirrored. Diolama's
+package metadata describes a publishable library; adding a private Git
+dependency would make that contract undistributable. Its module cites `DCA-002`
+and can switch to the shared package once that package has an approved public
+identity.
+
+`DCA-002` remains `Planned`, not `Done`. Pointer event propagation is GUI
+behavior, so compilation and pure state tests do not prove the RSX wiring. The
+remaining gate is a runtime matrix on one Cards/Gentle surface and one
+Deductree/Diolama surface:
+
+| Gesture | Expected |
+|---|---|
+| Backdrop down and up | Close once |
+| Panel down, drag outside, release | Stay open |
+| Backdrop down, drag inside, release | Stay open |
+| Cancelled pointer gesture | Stay open; next legitimate backdrop gesture closes once |

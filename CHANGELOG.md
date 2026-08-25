@@ -24,6 +24,10 @@ candidate status belongs only in `COMMON_CAPABILITY_WISHLIST.md`.
 
 ### Validation
 
+- split `DCA-002` into backdrop gesture, toast queue and modal focus contracts,
+  then validate and implement only the renderer-neutral backdrop pointer state
+- adopt the same-pointer backdrop truth table in Cards, Gentle and
+  Deductree/Diolama while preserving OxDM's already-safe close-on-down policy
 - accept `DCA-001` for planning on Dioxus 0.7.9 after comparing Cards' extracted
   guard, its label-editor near-copy, Gentle's manual guards and Dioxus keyboard events
 - migrate Cards' canonical guard and label-editor near-copy to `dioxus-input`, preserving
