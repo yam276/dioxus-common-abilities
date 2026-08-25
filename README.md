@@ -7,11 +7,12 @@ promoted only after their shared invariant, consumer boundary, and validation
 gate are documented. Product models, styling, routing, and command meaning stay
 in the consuming application.
 
-## Available crate
+## Available crates
 
 | Crate | Dioxus baseline | Purpose |
 |---|---:|---|
 | [`dioxus-input`](crates/dioxus-input) | `0.7.9` | Correct controlled-input behavior during CJK IME composition |
+| [`dioxus-backdrop-dismiss`](crates/dioxus-backdrop-dismiss) | `0.7.9` adapter | Same-pointer backdrop dismissal without owning modal rendering |
 
 `dioxus-input` provides a non-reactive `ImeGuard` that:
 
@@ -21,6 +22,11 @@ in the consuming application.
 
 The consumer still decides whether committed text replaces, appends, or enters
 a parser, and continues to own blur, focus, validation, and global shortcuts.
+
+`dioxus-backdrop-dismiss` provides renderer-neutral pointer state. It prevents
+press-inside/release-outside dismissal and handles content release,
+`pointercancel` and simultaneous pointer IDs without owning modal markup, focus,
+Escape policy or styling.
 
 ## Add the dependency
 

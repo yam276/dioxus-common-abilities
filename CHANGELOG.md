@@ -7,6 +7,8 @@ candidate status belongs only in `COMMON_CAPABILITY_WISHLIST.md`.
 
 ### Runtime crates
 
+- add the renderer-neutral `dioxus-backdrop-dismiss` pointer state with
+  same-pointer, content-release, cancellation and simultaneous-pointer coverage
 - add the initial `dioxus-input` crate on Dioxus 0.7.9 with a non-reactive
   `ImeGuard`, WebView2 composition-end recovery and two-source keyboard suppression
 - cover the pure composition state with five tests and keep renderer, router,
