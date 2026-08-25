@@ -54,10 +54,14 @@ Run from `gentle/gentle-app` after adoption：
 
 ## Distribution and remaining validation
 
-Like the Cards trial, Gentle currently uses the sibling path
-`../../dioxus-common-abilities/crates/dioxus-input`. This validates the source
-boundary but must become an accessible pinned Git revision or published crate
-before clean-checkout CI can build it.
+Gentle now uses the private Git repository pinned to
+`afc7c77a732ebac56f46561f2d75c04522d8b5bc`. Its lockfile records the same full
+source revision, and locked format, Clippy, tests, desktop bundling and launch
+checks pass without a sibling checkout.
+
+Each developer or CI environment still needs Git credentials that can read the
+private repository. Local HTTPS credential resolution is verified；clean CI
+credential configuration remains an operational gate.
 
 Gentle is the required second upgraded consumer, but it shares lineage with
 Cards. Independent-lineage validation and the Windows WebView2 CJK matrix remain

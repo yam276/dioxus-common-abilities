@@ -28,6 +28,8 @@ candidate status belongs only in `COMMON_CAPABILITY_WISHLIST.md`.
   caller-owned value and blur semantics while recording distribution and manual-test gates
 - upgrade Gentle to Dioxus 0.7.9 and migrate five manual guards to `dioxus-input`, with the
   app quality gate, desktop bundle and launch checks passing
+- pin Cards and Gentle to one private Git revision and verify locked dependency resolution,
+  desktop bundles and launch smoke tests without sibling repository checkouts
 - start `DCA-011` validation with a product-neutral persisted-data checklist prototype
 - validate the prototype against Deductree exact-version/additive-file behavior and
   Gentle additive-schema/structural-backup migration behavior

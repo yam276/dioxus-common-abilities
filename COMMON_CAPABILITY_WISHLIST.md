@@ -169,9 +169,9 @@ boundary validation。
 - **Candidate consumers:** Gentle Cards first, Gentle second; OxDM or Deductree supplies
   independent-lineage validation.
 - **What stays local:** form model, validation, value commit, CSS and command meaning.
-- **Next gate:** replace Cards' and Gentle's successful sibling-path trials with a
-  distributable pinned dependency, then run the manual Windows WebView2 CJK matrix and validate
-  one independent-lineage consumer. No `0.7.4` compatibility layer will be added.
+- **Next gate:** verify the pinned private Git dependency in authenticated clean CI, then run
+  the manual Windows WebView2 CJK matrix and validate one independent-lineage consumer. No
+  `0.7.4` compatibility layer will be added.
 
 ### `DCA-002` Headless modal and toast behavior
 
@@ -487,8 +487,8 @@ When reviewing a request:
 
 ## 8. Current focus
 
-- **Active validation:** `DCA-001` Cards and Gentle trials are integrated；distribution,
-  manual CJK and independent-lineage validation are next.
+- **Active validation:** `DCA-001` Cards and Gentle use one pinned private Git revision；
+  authenticated CI, manual CJK and independent-lineage validation are next.
 - **Prospective workflow validation:** `DCA-011` on the next real persisted-data change.
 - **Next tool candidate after governance validation:** `DCA-009` plus `DCA-010`.
 

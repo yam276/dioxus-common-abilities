@@ -16,8 +16,9 @@ Validation：`docs/validation/DCA-001-dioxus-input.md`
   and the desktop feature check passing.
 - Gentle upgraded from Dioxus `0.7.4` to `0.7.9`, then migrated five manual
   guards with 63 tests, Clippy and desktop bundle/launch checks passing.
-- Cards currently consumes a sibling path dependency; a pinned Git revision or
-  published crate is required before clean-checkout CI can use either consumer.
+- Cards and Gentle consume the same private Git revision, with locked desktop
+  builds and launch smoke tests passing without a sibling checkout.
+- Authenticated clean-CI resolution remains to be verified.
 - The manual WebView2 CJK matrix remains outstanding.
 
 ## Scope
@@ -75,5 +76,5 @@ commits, or either keyboard-composition source is ignored.
 - no default renderer/router/launch/logger dependency
 - all accepted public methods documented
 - Cards adoption evidence is recorded without moving product behavior into the crate
-- distributable dependency identity replaces the local sibling path before shipping
+- authenticated clean-CI resolution of the pinned private Git dependency
 - Catalog status remains `Planned` until consumer validation is complete

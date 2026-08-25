@@ -164,12 +164,14 @@ renderer, router, storage or domain dependency.
    upgrade；
 4. independent-lineage validation：open；
 5. the manual CJK matrix：open；
-6. distributable dependency identity：open。
+6. distributable dependency identity：complete at private Git revision
+   `afc7c77a732ebac56f46561f2d75c04522d8b5bc`；
+7. authenticated clean-CI resolution：open。
 
 Cards implementation evidence is recorded in
 `docs/validation/DCA-001-gentle-cards-adoption.md`. Its automated adoption checks
-pass subject to the documented pre-existing Clippy lint-name blocker; distribution
-and the manual matrix remain open.
+pass subject to the documented pre-existing Clippy lint-name blocker；authenticated
+CI and the manual matrix remain open.
 
 Gentle upgrade and adoption evidence is recorded in
 `docs/validation/DCA-001-gentle-adoption.md`.

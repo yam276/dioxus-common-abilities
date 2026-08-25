@@ -54,13 +54,16 @@ with an existing manifest mismatch：`gentle-cards-core/Cargo.toml` requires SQL
 updates that dependency family while adding `dioxus-input`; the same mismatch is
 present on `origin/develop`, and was not introduced by the adoption source edit.
 
-## Distribution constraint
+## Distribution result
 
-The trial uses the sibling path
-`../../dioxus-common-abilities/crates/dioxus-input`. It proves source and type
-compatibility in the maintainer workspace, but a clean Cards checkout or CI job
-does not fetch a sibling repository. Before this adoption can ship, replace the
-path with an accessible pinned Git revision or a published crate version.
+Cards now uses the private Git repository pinned to
+`afc7c77a732ebac56f46561f2d75c04522d8b5bc`. Its lockfile records the same full
+source revision, and locked tests, desktop bundling and launch checks pass
+without a sibling checkout.
+
+Each developer or CI environment still needs Git credentials that can read the
+private repository. Local HTTPS credential resolution is verified；clean CI
+credential configuration remains an operational gate.
 
 ## Remaining manual matrix
 
@@ -79,6 +82,6 @@ Still required on Windows WebView2：
 
 The Cards migration confirms that the shared API replaces both the canonical
 guard and the label-editor near-copy without product branches. `DCA-001` remains
-`Planned` until distribution, the manual matrix and independent-lineage
+`Planned` until authenticated CI, the manual matrix and independent-lineage
 validation are complete. The second upgraded consumer is recorded in
 `docs/validation/DCA-001-gentle-adoption.md`.
