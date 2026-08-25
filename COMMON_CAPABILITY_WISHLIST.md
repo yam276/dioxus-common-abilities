@@ -132,7 +132,7 @@ boundary validation。
 | ID | Candidate | Kind | Status | Priority |
 |---|---|---|---|---|
 | `DCA-001` | Dioxus IME composition and shortcut layer | crate | `Planned` | `P0` |
-| `DCA-002` | Backdrop-dismiss gesture state | crate | `Validating` | `P1` |
+| `DCA-002` | Backdrop-dismiss gesture state | crate | `Planned` | `P1` |
 | `DCA-003` | Product preferences backend/result boundary | crate | `Evidence-backed` | `P1` |
 | `DCA-004` | Product i18n locale/fallback boundary | crate | `Evidence-backed` | `P1` |
 | `DCA-005` | Background task ownership/progress contract | crate/workflow | `Evidence-backed` | `P1` |
@@ -178,7 +178,7 @@ boundary validation。
 ### `DCA-002` Backdrop-dismiss gesture state
 
 - **Kind:** crate
-- **Status:** `Validating`
+- **Status:** `Planned`
 - **Priority:** `P1`
 - **Problem:** HTML click ancestry can dismiss a dialog after a press begins inside the panel
   and ends on the backdrop. Cards fixed that fork-local bug with pointer-origin state, while
@@ -193,9 +193,10 @@ boundary validation。
   OxDM as the independent opposing-policy check.
 - **What stays local:** open/close policy, disabled or busy states, markup, CSS, panel contents,
   Escape meaning, focus behavior and accessibility composition.
-- **Next gate:** build a pure state/API spike from the validation truth table, prove pointer ID
-  and `pointercancel` behavior, then measure whether the Cards adapter removes more correctness
-  logic than it adds. Do not create a rendered modal component during this gate.
+- **Next gate:** implement the accepted pure state API from
+  `docs/active/DCA-002-backdrop-dismiss.md`, then adopt it in Gentle Cards and an independent
+  Deductree app surface. Diolama may mirror the truth table internally while the shared crate
+  remains private and therefore unsuitable for its publishable package contract.
 
 ### `DCA-003` Product preferences backend/result boundary
 
@@ -539,8 +540,8 @@ When reviewing a request:
 
 ## 8. Current focus
 
-- **Active validation:** `DCA-002` is split by failure semantics. Its next gate is a pure
-  backdrop-gesture state/API spike; no rendered modal or toast implementation is authorized.
+- **Active implementation:** `DCA-002` has an accepted pure pointer-state boundary. Build and
+  adopt only that state machine; rendered modal, focus and toast behavior remain out of scope.
 - **Queued completion gates:** `DCA-001` Cards and Gentle use one pinned private Git revision
   and pass authenticated clean CI；manual CJK and independent-lineage validation remain open.
 - **Prospective workflow validation:** `DCA-011` on the next real persisted-data change.

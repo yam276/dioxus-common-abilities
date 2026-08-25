@@ -1,6 +1,6 @@
 # DCA-002 Transient-surface Boundary Validation
 
-Status：split accepted; backdrop state validating
+Status：backdrop state accepted for planning; split accepted
 
 Evidence date：2026-08-25
 
@@ -26,7 +26,8 @@ source revisions inspected were:
   lifecycle to belong in one crate. The current-source comparison rejects this.
 - **Narrow hypothesis:** backdrop release correctness can be expressed as a
   small pointer-state machine that removes duplicated edge-case logic from a
-  consumer. This remains active and requires the API spike below.
+  consumer. Mapping the API below onto Cards, Gentle and Deductree/Diolama
+  accepts this hypothesis.
 
 ## Decision
 
@@ -37,12 +38,12 @@ and would hide unresolved policy differences behind a generic component.
 
 The catalog now records:
 
-1. `DCA-002` Backdrop-dismiss gesture state, promoted to `Validating`;
+1. `DCA-002` Backdrop-dismiss gesture state, promoted to `Planned`;
 2. `DCA-022` Stable toast queue lifecycle, retained at `Evidence-backed`;
 3. `DCA-023` Accessible modal focus lifecycle, retained at `Observed`.
 
-No implementation boundary is yet `Planned`; this decision does not authorize
-building any of the three crates.
+Only `DCA-002` is `Planned`. `DCA-022` and `DCA-023` remain outside
+implementation scope.
 
 ## Current modal evidence
 
@@ -82,10 +83,26 @@ the product is allowed to close.
 | Backdrop down A, backdrop up B | Do not dismiss for B |
 | Any later event after a terminal event | Observe no stale state for the completed pointer |
 
-The exact storage shape and hook names are intentionally not accepted yet. The
-spike must decide whether one active pointer is sufficient or simultaneous
-pointers require a small keyed set. That decision must follow tests rather than
-the existing Boolean implementation.
+The source comparison shows simultaneous pointers require a small keyed set: a
+release for pointer B must neither dismiss nor erase pointer A. The accepted
+renderer-neutral API is:
+
+```rust
+pub struct BackdropDismissState { /* private */ }
+
+impl BackdropDismissState {
+    pub fn pointer_down_on_backdrop(&mut self, pointer_id: i32);
+    pub fn pointer_down_on_content(&mut self, pointer_id: i32);
+    pub fn pointer_up_on_backdrop(&mut self, pointer_id: i32) -> bool;
+    pub fn pointer_up_on_content(&mut self, pointer_id: i32);
+    pub fn pointer_cancel(&mut self, pointer_id: i32);
+}
+```
+
+The state uses pointer IDs directly and has no Dioxus dependency. Consumers
+extract `PointerData::pointer_id()` in thin event adapters. A rendered component
+or hook would own too much markup and event-policy composition for this
+invariant.
 
 The consumer continues to own:
 
@@ -147,5 +164,6 @@ This boundary validation passes when:
   mismatched pointer identity;
 - no shared implementation is started before the candidate's next gate.
 
-All criteria above are satisfied. The next executable work is the `DCA-002`
-pure-state API spike, not a modal component and not a toast crate.
+All criteria above are satisfied. `DCA-002` may move to `Planned`; its executable
+plan is `docs/active/DCA-002-backdrop-dismiss.md`. The next work is the pure
+state crate and consumer adapters, not a modal component and not a toast crate.
