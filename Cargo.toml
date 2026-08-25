@@ -1,0 +1,3 @@
+[workspace]
+members = ["crates/dioxus-input"]
+resolver = "2"

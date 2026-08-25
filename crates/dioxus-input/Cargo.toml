@@ -1,0 +1,13 @@
+[package]
+name = "dioxus-input"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.83"
+publish = false
+description = "Small Dioxus input correctness primitives"
+
+[dependencies]
+dioxus = { version = "=0.7.9", default-features = false, features = ["hooks", "html", "signals"] }
+
+[lints.rust]
+unsafe_code = "forbid"
