@@ -132,7 +132,7 @@ boundary validation。
 | ID | Candidate | Kind | Status | Priority |
 |---|---|---|---|---|
 | `DCA-001` | Dioxus IME composition and shortcut layer | crate | `Planned` | `P0` |
-| `DCA-002` | Headless modal and toast behavior | crate | `Evidence-backed` | `P1` |
+| `DCA-002` | Backdrop-dismiss gesture state | crate | `Validating` | `P1` |
 | `DCA-003` | Product preferences backend/result boundary | crate | `Evidence-backed` | `P1` |
 | `DCA-004` | Product i18n locale/fallback boundary | crate | `Evidence-backed` | `P1` |
 | `DCA-005` | Background task ownership/progress contract | crate/workflow | `Evidence-backed` | `P1` |
@@ -152,6 +152,8 @@ boundary validation。
 | `DCA-019` | Reusable in-app live probe | crate/component | `Observed` | `P2` |
 | `DCA-020` | Rust worktree target reuse | tool/workflow | `Observed` | `P2` |
 | `DCA-021` | Shared-instruction include verification | tool | `Observed` | `P1` |
+| `DCA-022` | Stable toast queue lifecycle | crate | `Evidence-backed` | `P1` |
+| `DCA-023` | Accessible modal focus lifecycle | crate/component | `Observed` | `P1` |
 
 ## 6. Candidate records
 
@@ -169,25 +171,31 @@ boundary validation。
 - **Candidate consumers:** Gentle Cards first, Gentle second; OxDM or Deductree supplies
   independent-lineage validation.
 - **What stays local:** form model, validation, value commit, CSS and command meaning.
-- **Next gate:** verify the pinned private Git dependency in authenticated clean CI, then run
-  the manual Windows WebView2 CJK matrix and validate one independent-lineage consumer. No
-  `0.7.4` compatibility layer will be added.
+- **Next gate:** run the manual Windows WebView2 CJK matrix and validate one
+  independent-lineage consumer. The private Git dependency and authenticated clean CI are
+  already verified; no `0.7.4` compatibility layer will be added.
 
-### `DCA-002` Headless modal and toast behavior
+### `DCA-002` Backdrop-dismiss gesture state
 
 - **Kind:** crate
-- **Status:** `Evidence-backed`
+- **Status:** `Validating`
 - **Priority:** `P1`
-- **Problem:** Gentle siblings copy modal/toast primitives while Cards contains a later
-  backdrop press-origin fix; other products implement similar lifecycle differently.
-- **Common invariant:** backdrop, Escape/focus and toast-queue behavior should be reliable
-  without owning product styling.
-- **Evidence:** `DIOXUS_COMMONALITY_AUDIT.md` UI behavior finding and byte-identical Gentle
-  primitives.
-- **Candidate consumers:** Gentle Cards, Gentle, then OxDM or Deductree.
-- **What stays local:** CSS, icons, copy, layout and modal contents.
-- **Next gate:** separate behavior from Tailwind classes in one Gentle consumer and compare
-  with a non-Gentle dialog.
+- **Problem:** HTML click ancestry can dismiss a dialog after a press begins inside the panel
+  and ends on the backdrop. Cards fixed that fork-local bug with pointer-origin state, while
+  Gentle still uses `onclick` and OxDM deliberately closes on backdrop `mousedown`.
+- **Common invariant:** a release-based backdrop policy emits dismiss only when the same
+  pointer gesture begins and ends on the backdrop; panel release, pointer cancellation and
+  unrelated pointer IDs cannot leave armed state or dismiss accidentally.
+- **Evidence:** Gentle Cards commit `ea6e36e`, the current Cards/Gentle modal divergence and
+  OxDM's opposing `DialogOverlay` semantics, recorded in
+  `docs/validation/DCA-002-transient-surface-boundary.md`.
+- **Candidate consumers:** Gentle Cards as the reference, Gentle as the known stale sibling and
+  OxDM as the independent opposing-policy check.
+- **What stays local:** open/close policy, disabled or busy states, markup, CSS, panel contents,
+  Escape meaning, focus behavior and accessibility composition.
+- **Next gate:** build a pure state/API spike from the validation truth table, prove pointer ID
+  and `pointercancel` behavior, then measure whether the Cards adapter removes more correctness
+  logic than it adds. Do not create a rendered modal component during this gate.
 
 ### `DCA-003` Product preferences backend/result boundary
 
@@ -473,6 +481,50 @@ boundary validation。
 - **Next gate:** migrate those two shapes manually and inspect loaded instructions before writing
   a linter.
 
+### `DCA-022` Stable toast queue lifecycle
+
+- **Kind:** crate
+- **Status:** `Evidence-backed`
+- **Priority:** `P1`
+- **Problem:** every consumer keys and expires transient notifications, but fork siblings copy
+  the whole primitive while independent products disagree on capacity, duration, runtime,
+  manual dismissal and host mounting.
+- **Common invariant:** toast identity is stable; expiry and manual dismissal remove only the
+  intended item; repeated removal is harmless; optional capacity evicts the oldest item
+  deterministically.
+- **Evidence:** byte-identical Gentle/Cards toast sources plus the opposing OxDM and Deductree
+  queue/timer implementations in
+  `docs/validation/DCA-002-transient-surface-boundary.md`.
+- **Candidate consumers:** Gentle Cards or Gentle, then OxDM and Deductree as opposing scheduler
+  and host-lifetime cases.
+- **What stays local:** payload and severity types, message copy, durations, timer runtime,
+  renderer, CSS, icons, animations, dismissal control and router placement.
+- **Next gate:** write two API sketches for the bounded per-kind Gentle queue and Deductree's
+  route-remounted host. Prove stale-expiry, duplicate-dismiss and host-remount behavior, then
+  decide whether the shared core removes enough code to justify a crate.
+
+### `DCA-023` Accessible modal focus lifecycle
+
+- **Kind:** crate/component
+- **Status:** `Observed`
+- **Priority:** `P1`
+- **Problem:** current modal shells inconsistently move focus, trap Tab navigation, restore the
+  previous target and declare dialog semantics; Escape and cancellation policy are also mixed
+  into product callbacks.
+- **Common invariant:** an active modal has explicit semantics and initial focus, contains
+  keyboard focus, returns focus safely on teardown and scopes nested instances without owning
+  domain cancellation policy.
+- **Evidence:** Gentle/Cards backdrop focus, OxDM's focusable overlay and Diolama's mature
+  instance-scoped trap/return-focus implementation, compared in
+  `docs/validation/DCA-002-transient-surface-boundary.md`.
+- **Candidate consumers:** Gentle Cards and OxDM, with Diolama as the behavior reference rather
+  than a dependency.
+- **What stays local:** dialog contents, default button choice, allowed cancellation sources,
+  busy/closing states, styling, copy, icons and domain action generations.
+- **Next gate:** write one renderer-level acceptance matrix for initial focus, Tab/Shift+Tab,
+  nested dialogs, teardown return, ARIA role and disabled Escape; test it against Cards and
+  OxDM before choosing component, hook or documentation ownership.
+
 ## 7. Triage rules
 
 When reviewing a request:
@@ -487,8 +539,10 @@ When reviewing a request:
 
 ## 8. Current focus
 
-- **Active validation:** `DCA-001` Cards and Gentle use one pinned private Git revision and
-  pass authenticated clean CI；manual CJK and independent-lineage validation are next.
+- **Active validation:** `DCA-002` is split by failure semantics. Its next gate is a pure
+  backdrop-gesture state/API spike; no rendered modal or toast implementation is authorized.
+- **Queued completion gates:** `DCA-001` Cards and Gentle use one pinned private Git revision
+  and pass authenticated clean CI；manual CJK and independent-lineage validation remain open.
 - **Prospective workflow validation:** `DCA-011` on the next real persisted-data change.
 - **Next tool candidate after governance validation:** `DCA-009` plus `DCA-010`.
 

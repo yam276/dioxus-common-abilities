@@ -34,7 +34,8 @@
 最值得依序處理的能力是：
 
 1. **`dioxus-input`：IME composition 與 shortcut suppression semantics** — `Extract now`。
-2. **Headless modal/toast behavior primitives** — 先切 styling boundary，再抽；`Prepare boundary, extract later`。
+2. **Backdrop、modal focus 與 toast lifecycle** — 後續 source validation 證明是三個
+   failure contracts；分別記為 `DCA-002`、`DCA-023` 與 `DCA-022`，不可先做成一個 UI crate。
 3. **Product preferences lifecycle** — app owns schema，platform owns backend/result semantics；`Prepare boundary, extract later`。
 4. **Product i18n lifecycle** — 先統一 Gentle siblings，不強迫 Pedigoo/Deductree domain translators；`Prepare boundary, extract later`。
 5. **Background task ownership與progress contract** — 先把 scope-bound/detached 規則變成顯式 policy；`Prepare boundary, extract later`。
@@ -382,6 +383,12 @@ The lifecycle is stable enough to define and test, but not yet stable enough to 
 
 **Category:** Dioxus Infrastructure / UI Convention
 
+**2026-08-25 validation update:** current-source comparison split this combined survey
+candidate into `DCA-002` backdrop-dismiss gesture state, `DCA-022` stable toast queue
+lifecycle and `DCA-023` accessible modal focus lifecycle. The evidence below remains useful,
+but its original single-crate boundary is superseded by
+`docs/validation/DCA-002-transient-surface-boundary.md`.
+
 **Evidence**
 
 - `gentle/gentle-app/src/components/toast.rs` and `gentle-cards/gentle-cards-app/src/components/primitives/toast.rs` have identical SHA-256 and 154 lines each: `ToastKind`, bounded queue, root `ToastHost`, per-kind timeouts and click dismissal.
@@ -396,7 +403,7 @@ The lifecycle is stable enough to define and test, but not yet stable enough to 
 **Common behavior**
 
 - Overlay owns focusability, Escape, outside dismissal and inside propagation barrier.
-- Toast host lives above routes, receives messages from nested async work and auto-dismisses by stable id.
+- Toasts use stable identity for delayed removal, but host placement and remount behavior differ.
 - Long-running import progress must survive route/modal unmount and protect against browser unload.
 
 **Differences**
@@ -413,7 +420,10 @@ Gentle Cards is a fork and retained exact files. Other apps independently rebuil
 
 **Proposed stable boundary**
 
-Extract headless state/hooks first: press-origin backdrop dismissal, Escape policy, stable toast queue and timer/cancel contract. Renderers receive class names/icons/children. Do not move the current Tailwind markup wholesale into a supposedly generic crate.
+Do not extract one transient-surface crate. Validate the backdrop pointer state independently;
+keep the toast queue/scheduler and accessible focus lifecycle as separate candidates until their
+opposing implementations establish stable APIs. Do not move current Tailwind markup wholesale
+into any supposedly generic crate.
 
 **What must remain app-specific**
 
@@ -755,7 +765,8 @@ dioxus-common-abilities/
 Later, only after two consumers validate each boundary:
 ├── crates/product-preferences/       # headless stores/results; app owns schema
 ├── crates/product-i18n/              # locale/fallback contract; app owns resources
-├── crates/dioxus-ui-behavior/        # headless modal/toast behavior
+├── crates/dioxus-backdrop-dismiss/   # only if the pointer-state spike proves worthwhile
+├── docs/validation/                  # DCA-022 and DCA-023 remain documents first
 └── crates/product-diagnostics/       # startup guard + support metadata
 
 No dioxus-app-shell crate yet:
@@ -767,7 +778,7 @@ No dioxus-app-shell crate yet:
 | `dioxus-input` | Composition state, WebView2 final commit extraction, command suppression predicate | Dioxus 0.7 only | Cards first, Gentle second; OxDM/Deductree validation | Form model, validation, text widgets, key registry, CSS |
 | `product-preferences` | Raw backend + typed load/save outcomes, optional atomic file preset | `std`; optional serde adapters | Gentle/Cards first, then OxDM or Deductree | Schema, format mandate, app directories, secrets, settings UI |
 | `product-i18n` | Locale identity/fallback and translator contract | `std`; serde optional | Gentle/Cards first | Translation keys, domain values, resource format, plurals, fonts/assets |
-| `dioxus-ui-behavior` | Backdrop press-origin, Escape/focus lifecycle, toast queue state | Dioxus 0.7 | Gentle/Cards, then OxDM | Tailwind/product CSS, icons, modal content |
+| `dioxus-backdrop-dismiss` candidate | Same-pointer backdrop gesture state only | `std`; thin Dioxus adapter if justified | Cards, Gentle; OxDM as opposing-policy check | Modal rendering, Escape/focus, toast queue, CSS and content |
 | `product-diagnostics` | Install order, guard lifetime, log/support paths | `tracing` optional | OxDM plus a Gentle app or Shiny | Product error taxonomy, telemetry, redaction policy |
 | paved-road docs | Startup sequence and composition examples | None | Every new app | Generic builder, DI container, router/context framework |
 
@@ -797,9 +808,12 @@ Domain cores must not depend on Dioxus. Diolama remains a domain platform for VN
 
 Highest pain and stability, smallest surface, lowest coupling. It closes a correctness issue rather than merely deleting lines.
 
-### 2. Headless modal/toast behavior
+### 2. Backdrop-dismiss gesture state
 
-Use the Cards modal fix and the byte-identical Gentle primitives as evidence. Extract only after separating behavior from Tailwind classes. Verify with one Gentle app and OxDM or Deductree to avoid a fork-only API.
+Use the Cards modal incident as the regression seed and OxDM's close-on-down policy as the
+opposing check. First prove same-pointer, panel-release and `pointercancel` semantics in a pure
+state spike. Toast queue and accessible modal focus continue separately as `DCA-022` and
+`DCA-023`; neither is part of this extraction step.
 
 ### 3. Product preferences backend/result boundary
 
