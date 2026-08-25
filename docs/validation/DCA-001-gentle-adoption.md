@@ -59,9 +59,14 @@ Gentle now uses the private Git repository pinned to
 source revision, and locked format, Clippy, tests, desktop bundling and launch
 checks pass without a sibling checkout.
 
-Each developer or CI environment still needs Git credentials that can read the
-private repository. Local HTTPS credential resolution is verified；clean CI
-credential configuration remains an operational gate.
+GitHub Actions uses the read-only `consumer-actions-readonly` deploy key through
+the `DIOXUS_COMMON_ABILITIES_SSH_KEY` repository secret. The manually dispatched
+[`develop` workflow run 32841641337](https://github.com/yam276/gentle/actions/runs/32841641337)
+passed all four jobs on a clean runner；the app job authenticated, fetched the
+pinned private revision, then passed format, Clippy and all 63 tests.
+
+Developers still need credentials that can read the private repository. They do
+not need a sibling checkout.
 
 Gentle is the required second upgraded consumer, but it shares lineage with
 Cards. Independent-lineage validation and the Windows WebView2 CJK matrix remain

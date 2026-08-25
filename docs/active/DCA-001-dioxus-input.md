@@ -18,7 +18,9 @@ Validation：`docs/validation/DCA-001-dioxus-input.md`
   guards with 63 tests, Clippy and desktop bundle/launch checks passing.
 - Cards and Gentle consume the same private Git revision, with locked desktop
   builds and launch smoke tests passing without a sibling checkout.
-- Authenticated clean-CI resolution remains to be verified.
+- Cards and Gentle resolve the pinned private revision in clean GitHub Actions
+  runners through one read-only deploy key；both complete workflows pass.
+- Independent-lineage validation remains outstanding.
 - The manual WebView2 CJK matrix remains outstanding.
 
 ## Scope

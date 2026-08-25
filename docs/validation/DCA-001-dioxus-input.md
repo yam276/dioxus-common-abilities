@@ -166,12 +166,15 @@ renderer, router, storage or domain dependency.
 5. the manual CJK matrix：open；
 6. distributable dependency identity：complete at private Git revision
    `afc7c77a732ebac56f46561f2d75c04522d8b5bc`；
-7. authenticated clean-CI resolution：open。
+7. authenticated clean-CI resolution：complete through one shared read-only
+   deploy key and per-consumer GitHub Actions secrets。
 
 Cards implementation evidence is recorded in
-`docs/validation/DCA-001-gentle-cards-adoption.md`. Its automated adoption checks
-pass subject to the documented pre-existing Clippy lint-name blocker；authenticated
-CI and the manual matrix remain open.
+`docs/validation/DCA-001-gentle-cards-adoption.md`. Its manually dispatched clean
+CI run passed all three jobs, including private dependency resolution and the app
+format, Clippy and test gate.
 
 Gentle upgrade and adoption evidence is recorded in
-`docs/validation/DCA-001-gentle-adoption.md`.
+`docs/validation/DCA-001-gentle-adoption.md`. Its clean CI run passed all four
+jobs, including the authenticated app gate. The manual CJK matrix and
+independent-lineage validation remain open.

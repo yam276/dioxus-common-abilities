@@ -30,6 +30,8 @@ candidate status belongs only in `COMMON_CAPABILITY_WISHLIST.md`.
   app quality gate, desktop bundle and launch checks passing
 - pin Cards and Gentle to one private Git revision and verify locked dependency resolution,
   desktop bundles and launch smoke tests without sibling repository checkouts
+- authenticate both consumer workflows with one read-only deploy key and verify their complete
+  clean-runner quality gates pass
 - start `DCA-011` validation with a product-neutral persisted-data checklist prototype
 - validate the prototype against Deductree exact-version/additive-file behavior and
   Gentle additive-schema/structural-backup migration behavior

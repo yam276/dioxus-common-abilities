@@ -36,17 +36,11 @@ Run from `gentle-cards/gentle-cards-app`：
 - `cargo check --no-default-features --features desktop`：pass.
 - `cargo tree -i dioxus-input`：resolves the shared crate as a direct Cards
   dependency.
-- `cargo clippy -- -D warnings -A unknown-lints`：pass with no issues.
+- `cargo clippy -- -D warnings`：pass with no issues.
 - `dx build --platform desktop`：bundles `GentleCardsApp.app` successfully on
   macOS.
 - `dx serve --platform desktop`：launches the bundled application process; the
   development server and Tailwind watcher stop cleanly afterward.
-
-The repository's exact `cargo clippy -- -D warnings` command remains red on the
-pre-existing `#[allow(clippy::manual_option_zip)]` in
-`components/play_canvas/widget_layer.rs`; the installed toolchain reports that
-lint name as unknown. The adoption does not modify that file. This is recorded
-as a consumer gate blocker, not hidden as an IME migration failure.
 
 Adding the new dependency also forces Cards' tracked app lockfile to catch up
 with an existing manifest mismatch：`gentle-cards-core/Cargo.toml` requires SQLx
@@ -61,9 +55,14 @@ Cards now uses the private Git repository pinned to
 source revision, and locked tests, desktop bundling and launch checks pass
 without a sibling checkout.
 
-Each developer or CI environment still needs Git credentials that can read the
-private repository. Local HTTPS credential resolution is verified；clean CI
-credential configuration remains an operational gate.
+GitHub Actions uses the read-only `consumer-actions-readonly` deploy key through
+the `DIOXUS_COMMON_ABILITIES_SSH_KEY` repository secret. The manually dispatched
+[`develop` workflow run 32841974744](https://github.com/yam276/gentle-cards/actions/runs/32841974744)
+passed all three jobs on a clean runner；the app job authenticated, fetched the
+pinned private revision, then passed format, Clippy and all 109 tests.
+
+Developers still need credentials that can read the private repository. They do
+not need a sibling checkout.
 
 ## Remaining manual matrix
 
@@ -82,6 +81,6 @@ Still required on Windows WebView2：
 
 The Cards migration confirms that the shared API replaces both the canonical
 guard and the label-editor near-copy without product branches. `DCA-001` remains
-`Planned` until authenticated CI, the manual matrix and independent-lineage
-validation are complete. The second upgraded consumer is recorded in
+`Planned` until the manual matrix and independent-lineage validation are
+complete. The second upgraded consumer is recorded in
 `docs/validation/DCA-001-gentle-adoption.md`.

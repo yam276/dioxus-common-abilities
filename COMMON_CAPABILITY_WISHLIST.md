@@ -487,8 +487,8 @@ When reviewing a request:
 
 ## 8. Current focus
 
-- **Active validation:** `DCA-001` Cards and Gentle use one pinned private Git revision；
-  authenticated CI, manual CJK and independent-lineage validation are next.
+- **Active validation:** `DCA-001` Cards and Gentle use one pinned private Git revision and
+  pass authenticated clean CI；manual CJK and independent-lineage validation are next.
 - **Prospective workflow validation:** `DCA-011` on the next real persisted-data change.
 - **Next tool candidate after governance validation:** `DCA-009` plus `DCA-010`.
 
