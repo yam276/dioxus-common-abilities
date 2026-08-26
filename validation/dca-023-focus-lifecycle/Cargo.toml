@@ -1,0 +1,12 @@
+[package]
+name = "dca-023-focus-lifecycle-validation"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+dioxus = { version = "=0.7.9", features = ["web"] }
+dioxus-primitives = { git = "https://github.com/DioxusLabs/dioxus-components", rev = "bf007c15d0cf4d04d3181cc46cf12325aa773955", default-features = false }
+
+# Keep this executable validation fixture outside the production crate workspace.
+[workspace]
