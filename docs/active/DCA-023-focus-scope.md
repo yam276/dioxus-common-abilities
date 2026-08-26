@@ -6,6 +6,20 @@ Catalog：`DCA-023`
 
 Validation：`docs/validation/DCA-023-accessible-modal-focus.md`
 
+## Progress
+
+- `dioxus-focus-scope` crate constructed at version `0.1.0`, `publish = false`.
+- Public boundary is a zero-configuration hook plus an optional initial-target
+  option applied to the consumer's existing root.
+- Five focused Rust tests cover identity, safe JavaScript literals, optional
+  target generation and the absence of crate-owned Escape policy.
+- Normal dependency tree contains Dioxus document/core support but no renderer,
+  router, launcher, logger or product domain crate.
+- The standalone fixture passes trusted browser Tab and Shift+Tab checks for
+  basic, nested, dynamic and empty scopes, plus disabled-target and
+  disconnected-opener fallbacks.
+- Gentle Cards and Deductree adoption remain outstanding.
+
 ## Scope
 
 Create a small Dioxus `0.7.9` crate named `dioxus-focus-scope`. A consumer marks

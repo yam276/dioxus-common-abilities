@@ -1,6 +1,6 @@
 # DCA-023 Accessible Modal Focus Validation
 
-Status：validation complete; narrow focus-scope boundary accepted for planning
+Status：shared fixture green; Gentle Cards and Deductree adoption remain open
 
 Evidence date：2026-08-26
 
@@ -8,16 +8,17 @@ Dioxus baseline：`0.7.9`
 
 Upstream revision：`DioxusLabs/dioxus-components@bf007c15d0cf4d04d3181cc46cf12325aa773955`
 
-## Objective
+## Original upstream objective
 
 Determine whether the first-party `dioxus-primitives::dialog` behavior can own
 the shared `DCA-023` focus lifecycle without a new common implementation. This
 round is validation only: it does not change a consumer, create a production
 crate or accept an implementation plan.
 
-The standalone fixture is
-`validation/dca-023-focus-lifecycle`. It is outside the production Cargo
-workspace and pins the exact upstream revision above.
+The original standalone fixture lived at
+`validation/dca-023-focus-lifecycle`, outside the production Cargo workspace,
+and pinned the exact upstream revision above. After rejection, the same stable
+scenarios became the runtime acceptance fixture for `dioxus-focus-scope`.
 
 ## Hypothesis
 
@@ -36,10 +37,10 @@ Product policy remains outside the boundary: whether Escape or outside
 dismissal is enabled, destructive-action generations, busy state, default
 button choice, styling, copy and layer placement.
 
-## Runtime matrix
+## Upstream runtime matrix
 
-The fixture was served with `dx serve --web` and exercised through the in-app
-Chromium browser. Element IDs below are stable fixture probes.
+The pinned upstream fixture was served with `dx serve --web` and exercised in a
+real Chromium browser. Element IDs below remain stable fixture probes.
 
 | Scenario | Expected | Observed | Result |
 |---|---|---|---|
@@ -81,6 +82,35 @@ scope activation and safe restoration. ARIA markup can remain a composition
 checklist unless consumer validation proves a helper removes meaningful
 duplication. Escape, outside dismissal and domain cancellation remain local
 policy.
+
+## Shared crate runtime matrix
+
+The fixture now consumes `dioxus-focus-scope` by a local path while remaining
+outside the production workspace. It composes `role`, `aria-modal`, accessible
+names and Escape callbacks itself. Trusted browser keyboard input produced the
+following receipt:
+
+| Scenario | Observed | Result |
+|---|---|---|
+| Default initial focus | Basic scope focused its first current tabbable, `basic-first` | Pass |
+| Preferred initial focus | Dynamic scope focused `dynamic-toggle` even though `close-dynamic` precedes it | Pass |
+| Basic forward Tab | `basic-first`, `basic-last`, `close-basic`, `basic-first` | Pass |
+| Basic reverse Tab | `basic-first` to `close-basic` | Pass |
+| Basic Escape and restoration | Fixture-owned Escape closed the scope and restored `open-basic` | Pass |
+| Nested initial focus | Outer focused `open-inner`; inner focused `inner-first` | Pass |
+| Nested forward and reverse containment | Inner wrapped between `inner-first` and `close-inner` without entering outer controls | Pass |
+| Nested teardown | Inner restored `open-inner`; outer resumed containment and restored `open-outer` | Pass |
+| No tabbable descendants | The `div[role=dialog][tabindex=-1]` root retained forward and reverse Tab | Pass |
+| Dynamic control added | From `dynamic-toggle`, Tab reached newly mounted `dynamic-extra`, then wrapped to `close-dynamic` | Pass |
+| Dynamic control removed | After removal, Shift+Tab from `dynamic-toggle` reached current `close-dynamic` | Pass |
+| Disabled preferred target | Disabled `orphan-disabled` fell back to enabled `close-orphan` | Pass |
+| Disconnected opener | Closing removed `open-orphan`; focus remained on connected `body`, never the detached node | Pass |
+| Browser diagnostics | A fresh page emitted no warning or error from the fixture origin | Pass |
+
+The browser environment emitted unrelated extension warnings, and an earlier
+page recorded the expected dev-server disconnect when the fixture server was
+restarted. Neither came from the fixture origin; the final fresh-page receipt
+was clean.
 
 ## Consumer validation
 
@@ -141,9 +171,8 @@ required failing-before-fix desktop receipt.
 
 ## Next gate
 
-Proceed with the implementation plan in `docs/active/DCA-023-focus-scope.md`.
-The crate must first pass the standalone browser fixture's trusted forward and
-reverse Tab matrix, nested-scope checks, no-tabbable fallback and restoration
-checks. Cards and Deductree are the required consumers; OxDM is explicitly out
-of scope. Consumer probes may be temporary, but each adoption must preserve its
-repository's complete quality gate.
+Pin the reviewed shared revision in Gentle Cards and replace only its focus
+lifecycle. Preserve Cards' backdrop, Escape and confirmation-generation policy;
+add dialog semantics in Cards itself. Record the trusted browser receipt and
+complete local gate before beginning Deductree's nested adoption. OxDM remains
+explicitly out of scope.

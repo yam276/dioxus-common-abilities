@@ -7,6 +7,10 @@ candidate status belongs only in `COMMON_CAPABILITY_WISHLIST.md`.
 
 ### Runtime crates
 
+- add `dioxus-focus-scope` on Dioxus 0.7.9 with consumer-owned root markup,
+  dynamic Tab containment, nested-scope activation and safe focus restoration
+- cover scope identity and JavaScript boundary generation with five tests while
+  keeping dialog semantics, Escape, backdrop and domain callbacks outside the crate
 - add the renderer-neutral `dioxus-backdrop-dismiss` pointer state with
   same-pointer, content-release, cancellation and simultaneous-pointer coverage
 - add the initial `dioxus-input` crate on Dioxus 0.7.9 with a non-reactive
@@ -24,6 +28,9 @@ candidate status belongs only in `COMMON_CAPABILITY_WISHLIST.md`.
 
 ### Validation
 
+- replace the rejected first-party focus behavior in the standalone DCA-023
+  fixture and pass trusted browser checks for basic, nested, dynamic, empty,
+  disabled-target and disconnected-opener lifecycles
 - split `DCA-002` into backdrop gesture, toast queue and modal focus contracts,
   then validate and implement only the renderer-neutral backdrop pointer state
 - adopt the same-pointer backdrop truth table in Cards, Gentle and

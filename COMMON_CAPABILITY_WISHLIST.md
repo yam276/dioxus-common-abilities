@@ -523,16 +523,17 @@ boundary validation。
   a real Cards confirmation run: initial focus and Escape pass, while dialog semantics and
   opener restoration fail. A hidden desktop-WebView probe on Deductree's actual nested Cast
   Library confirms missing outer and inner initial focus, no Tab interception and failed inner
-  opener restoration.
+  opener restoration. The resulting `dioxus-focus-scope` crate now passes the standalone real-
+  browser matrix for basic, nested, dynamic, empty, disabled-target and disconnected-opener
+  lifecycles without owning Escape or dialog markup.
 - **Candidate consumers:** Gentle Cards first, then Deductree's nested Cast Library picker.
   Diolama remains the behavior reference rather than a dependency; OxDM is not a required
   validator or adopter.
 - **What stays local:** dialog contents, default button choice, allowed cancellation sources,
   busy/closing states, styling, copy, icons and domain action generations.
-- **Next gate:** execute `docs/active/DCA-023-focus-scope.md`: construct the narrow
-  `dioxus-focus-scope` crate and make the standalone browser fixture pass before adopting it in
-  Cards and Deductree. Do not add Escape, backdrop, ARIA markup or domain cancellation policy to
-  the crate.
+- **Next gate:** adopt the reviewed `dioxus-focus-scope` revision in Gentle Cards, preserve its
+  existing close/backdrop policy, add product-owned dialog semantics and record a trusted browser
+  receipt before beginning Deductree's nested adoption.
 
 ## 7. Triage rules
 
@@ -553,9 +554,8 @@ When reviewing a request:
 - **Queued completion gates:** `DCA-001` Cards and Gentle use one pinned private Git revision
   and pass authenticated clean CI；manual CJK and independent-lineage validation remain open.
 - **Prospective workflow validation:** `DCA-011` on the next real persisted-data change.
-- **Planned focus scope:** `DCA-023` rejects direct adoption of the pinned first-party dialog,
-  and real Cards plus Deductree runs support a narrow focus-scope crate with product-owned
-  semantics and cancellation policy.
+- **Planned focus scope:** `DCA-023` now has a standalone browser-validated shared crate;
+  Gentle Cards is the next adoption gate, followed by Deductree's nested Cast picker.
 - **Next tool candidate after governance validation:** `DCA-009` plus `DCA-010`.
 
 Only one focus changes status at a time. New evidence may be recorded for other entries without

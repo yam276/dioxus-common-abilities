@@ -13,6 +13,7 @@ in the consuming application.
 |---|---:|---|
 | [`dioxus-input`](crates/dioxus-input) | `0.7.9` | Correct controlled-input behavior during CJK IME composition |
 | [`dioxus-backdrop-dismiss`](crates/dioxus-backdrop-dismiss) | `0.7.9` adapter | Same-pointer backdrop dismissal without owning modal rendering |
+| [`dioxus-focus-scope`](crates/dioxus-focus-scope) | `0.7.9` | Nested focus containment and safe opener restoration without owning modal policy |
 
 `dioxus-input` provides a non-reactive `ImeGuard` that:
 
@@ -27,6 +28,11 @@ a parser, and continues to own blur, focus, validation, and global shortcuts.
 press-inside/release-outside dismissal and handles content release,
 `pointercancel` and simultaneous pointer IDs without owning modal markup, focus,
 Escape policy or styling.
+
+`dioxus-focus-scope` binds to a consumer-owned root. It chooses an initial
+target, discovers current tabbable descendants on every Tab event, suspends
+parent scopes while nested and restores a connected opener on teardown. Dialog
+roles, accessible names, Escape and close policy remain local.
 
 ## Add the dependency
 

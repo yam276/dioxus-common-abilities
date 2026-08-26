@@ -1,0 +1,13 @@
+[package]
+name = "dioxus-focus-scope"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.83"
+publish = false
+description = "Nested focus-scope lifecycle for Dioxus overlays"
+
+[dependencies]
+dioxus = { version = "=0.7.9", default-features = false, features = ["document"] }
+
+[lints.rust]
+unsafe_code = "forbid"

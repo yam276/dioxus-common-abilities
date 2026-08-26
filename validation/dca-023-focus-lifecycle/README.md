@@ -1,17 +1,18 @@
 # DCA-023 focus-lifecycle validation fixture
 
-This standalone Dioxus `0.7.9` app evaluates the current first-party
-`dioxus-primitives` dialog implementation at pinned revision
-`bf007c15d0cf4d04d3181cc46cf12325aa773955`.
+This standalone Dioxus `0.7.9` app validates the shared
+`dioxus-focus-scope` crate in real browser behavior.
 
-It is evidence, not a production crate. It deliberately lives outside the root Cargo
-workspace and must not be used by a consumer application.
+It deliberately lives outside the root Cargo workspace. Dialog markup, accessible
+names, Escape and close callbacks remain fixture-owned consumer policy.
 
-The three scenarios cover:
+The scenarios cover:
 
 - initial focus, forward/reverse tab wrapping, Escape and focus restoration;
 - nested dialog scope isolation and restoration to the parent opener;
-- fallback behavior when a dialog has no tabbable descendants.
+- fallback behavior when a dialog has no tabbable descendants;
+- live tabbable discovery after controls are added or removed;
+- disabled initial-target fallback and safe teardown after an opener is removed.
 
 Run it from this directory:
 

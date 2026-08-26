@@ -1,3 +1,7 @@
 [workspace]
-members = ["crates/dioxus-backdrop-dismiss", "crates/dioxus-input"]
+members = [
+    "crates/dioxus-backdrop-dismiss",
+    "crates/dioxus-focus-scope",
+    "crates/dioxus-input",
+]
 resolver = "2"
