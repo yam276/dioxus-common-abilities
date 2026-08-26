@@ -1,8 +1,8 @@
 # DCA-023 Accessible Modal Focus Validation
 
-Status：upstream boundary rejected for direct adoption; consumer validation remains open
+Status：validation complete; narrow focus-scope boundary accepted for planning
 
-Evidence date：2026-08-25
+Evidence date：2026-08-26
 
 Dioxus baseline：`0.7.9`
 
@@ -71,9 +71,9 @@ shared `DCA-023` contract. It is useful source and behavior evidence, and its
 single-dialog semantics are a strong baseline, but the tested revision fails
 two required cases: nested forward containment and the no-tabbable fallback.
 
-Do not start a replacement crate yet. `DCA-023` moves to `Validating`, not
-`Planned`, because the acceptance artifact now exists but the actual consumer
-boundary is still unproven.
+The first-party component remains rejected as the direct shared dependency. The
+consumer evidence below now supports planning a narrower shared mechanism,
+`dioxus-focus-scope`, rather than another complete modal component.
 
 The likely reusable owner is narrower than a modal component: a focus-scope
 mechanism responsible for initial focus, dynamic tabbable discovery, nested
@@ -112,9 +112,11 @@ restoration are separate missing capabilities.
 
 ### Deductree Cast Library
 
-Deductree `cab718de8e5da7cf7b4131e224cea11e6411523e` was inspected at the actual
-Story Editor nested surface. The app is desktop-only, so this round did not
-claim a browser-runtime result for it.
+Deductree `7aecf3705b47f7699076a10a522c110004cc76ed` was inspected and exercised at
+the actual Story Editor nested surface. The runtime probe launched the desktop
+WebView hidden, with macOS configured not to activate over the current app. It
+added one in-memory character, did not mark the story edited, wrote only the
+receipt below to stderr and was removed after the run.
 
 The outer Cast Library carries `role=dialog`, `aria-modal` and a labelled title.
 The nested asset picker carries `role=dialog` and `aria-modal`, but no accessible
@@ -122,19 +124,26 @@ name. Neither panel is a focus target, moves initial focus, traps Tab, scopes
 Escape or restores focus to its opener. Both layers remain simultaneously
 mounted while the picker is open.
 
-This is a structural red case for the same common invariant, but the actual
-desktop WebView key sequence is still required before planning. The lack of a
-runtime receipt is recorded as an open gate rather than silently treated as a
-pass.
+| Check | Observed | Result |
+|---|---|---|
+| Outer initial focus | `document.activeElement` remained `body`; it was outside `.cast-library` | Fail |
+| Outer fallback target | `.cast-library` had no `tabindex` | Fail |
+| Nested initial focus | Focus remained on the outer asset-picker opener, outside `.cast-picker` | Fail |
+| Nested accessible name | The picker had neither `aria-label` nor `aria-labelledby` | Fail |
+| Tab interception | A cancelable bubbling Tab event was not prevented and dispatch returned normally | Fail |
+| Nested restoration | After focusing the picker close button and closing the picker, focus became `body`, not the stored outer opener | Fail |
+
+The synthetic Tab dispatch is not treated as a native traversal trace; browsers
+do not perform trusted default Tab navigation for a synthetic event. It does
+prove that the real surface installs no containment handler. Together with the
+active-element observations before and after the nested lifecycle, this is the
+required failing-before-fix desktop receipt.
 
 ## Next gate
 
-Run the matrix in Deductree's desktop Cast Library and nested asset picker,
-including forward/reverse Tab, inner Escape and restoration first to the outer
-picker opener and then to the toolbar opener. This is the remaining runtime
-gate now that Cards has a real-browser receipt.
-
-OxDM remains the next independent simple-overlay check. Consumer probes may be
-temporary, but each validation must preserve its repository's quality gate.
-Only after the desktop nested receipt can the project choose among an upstream
-contribution, a narrow shared focus-scope hook or documentation-only ownership.
+Proceed with the implementation plan in `docs/active/DCA-023-focus-scope.md`.
+The crate must first pass the standalone browser fixture's trusted forward and
+reverse Tab matrix, nested-scope checks, no-tabbable fallback and restoration
+checks. Cards and Deductree are the required consumers; OxDM is explicitly out
+of scope. Consumer probes may be temporary, but each adoption must preserve its
+repository's complete quality gate.
