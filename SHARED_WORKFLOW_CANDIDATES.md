@@ -151,6 +151,14 @@ consumers are both represented.
 Two independent products expose the same entrypoint semantics, including clean
 failure propagation and a docs-only path.
 
+**2026-08-28 validation result**
+
+Cards and ShinyColors support a common selection, explanation, execution and
+result contract, but not a common command list or implementation tool. Required
+manual or platform-unavailable evidence must remain pending and non-green. The
+accepted boundary and remaining two-consumer prototype gate are recorded in
+`docs/validation/DCA-009-010-quality-gate-interface.md`.
+
 ## 4. Change-impact target matrix
 
 **Status:** `Ready to design`
@@ -186,6 +194,15 @@ the matrix from prose scattered across several files.
 
 First model Gentle Cards WASM and ShinyColors Canvas because they exercise
 different kinds of boundaries. Reject any format that cannot express both simply.
+
+**2026-08-28 validation result**
+
+Both cases fit a neutral model of local check IDs, local predicates,
+dependencies, availability and automated-versus-owner evidence. Technology
+names remain local values rather than shared schema fields. `DCA-009` consumes
+this model, but remains a separate candidate because invocation and impact data
+have different owners. See
+`docs/validation/DCA-009-010-quality-gate-interface.md`.
 
 ## 5. Regression proof with a negative case
 
