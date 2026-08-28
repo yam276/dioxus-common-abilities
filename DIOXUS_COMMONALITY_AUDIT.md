@@ -6,7 +6,7 @@
 
 ## Scope 與方法
 
-本次掃描以 `/Users/ladesine/Documents/Github` 為共同路徑基準，涵蓋目前 workspace roots 中六個 Dioxus 產品，以及它們直接相關的 Rust crates：
+本次掃描以一個包含各 consumer repository 的共同 workspace root 為路徑基準，涵蓋當時六個 Dioxus 產品，以及它們直接相關的 Rust crates：
 
 - `Deductree`
 - `gentle`
@@ -15,7 +15,7 @@
 - `Pedigoo`
 - `NewShiny/ShinyColors_diolama`
 
-主要證據來自 Cargo manifests、Dioxus entrypoints、i18n／settings／persistence／input／window／task／diagnostics／UI source，以及 git history。本文引用的路徑都相對於 `/Users/ladesine/Documents/Github`。
+主要證據來自 Cargo manifests、Dioxus entrypoints、i18n／settings／persistence／input／window／task／diagnostics／UI source，以及 git history。本文引用的 consumer 路徑都相對於該共同 workspace root。
 
 這是靜態審計，沒有啟動 GUI 做新的 CJK IME、window、mobile 或 failure-path 手動驗收。凡是原始碼只顯示「可能暴露於問題」而沒有 bug history 或 workaround 證據，本文都不把它寫成已證實 bug。
 

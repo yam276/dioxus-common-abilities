@@ -1,0 +1,6 @@
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Public JavaScript registry key used by the focus-scope runtime"
+regexes = ['''__dioxusFocusScopeV1''']

@@ -46,8 +46,10 @@ dioxus-input = {
 }
 ```
 
-Private-repository access must already be configured for Git. A sibling checkout
-can use a path dependency while developing locally:
+The repository is public, so consumers do not need repository credentials. The
+crates are intentionally not published to crates.io; pin a reviewed commit for
+reproducible builds. A sibling checkout can use a path dependency while
+developing locally:
 
 ```toml
 dioxus-input = { path = "../dioxus-common-abilities/crates/dioxus-input" }
@@ -117,3 +119,12 @@ cargo test --workspace --all-targets
 Runtime crates are intentionally small and do not pull in a renderer, router,
 launcher, logger, storage layer, or product domain model unless their validated
 boundary explicitly requires one.
+
+## License
+
+Licensed under either of
+
+- Apache License, Version 2.0 ([LICENSE-APACHE](LICENSE-APACHE)); or
+- MIT license ([LICENSE-MIT](LICENSE-MIT))
+
+at your option.

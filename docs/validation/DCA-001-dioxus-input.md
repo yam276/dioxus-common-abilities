@@ -164,17 +164,18 @@ renderer, router, storage or domain dependency.
    upgrade；
 4. independent-lineage validation：open；
 5. the manual CJK matrix：open；
-6. distributable dependency identity：complete at private Git revision
+6. distributable dependency identity：complete at pinned Git revision
    `afc7c77a732ebac56f46561f2d75c04522d8b5bc`；
-7. authenticated clean-CI resolution：complete through one shared read-only
-   deploy key and per-consumer GitHub Actions secrets。
+7. clean-CI resolution：verified while private through one shared read-only
+   deploy key and per-consumer GitHub Actions secrets；public distribution later
+   removed the credential prerequisite。
 
 Cards implementation evidence is recorded in
 `docs/validation/DCA-001-gentle-cards-adoption.md`. Its manually dispatched clean
-CI run passed all three jobs, including private dependency resolution and the app
+CI run passed all three jobs, including the dependency resolution and the app
 format, Clippy and test gate.
 
 Gentle upgrade and adoption evidence is recorded in
 `docs/validation/DCA-001-gentle-adoption.md`. Its clean CI run passed all four
-jobs, including the authenticated app gate. The manual CJK matrix and
+jobs, including the then-authenticated app gate. The manual CJK matrix and
 independent-lineage validation remain open.

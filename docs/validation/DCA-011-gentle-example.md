@@ -2,7 +2,7 @@
 
 Evidence date：2026-08-25
 
-Consumer：`/Users/ladesine/Documents/Github/gentle`
+Consumer：workspace sibling `gentle`
 
 本例重建兩個已存在的 contract decisions，不提出 schema change：
 

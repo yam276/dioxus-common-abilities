@@ -170,8 +170,9 @@ boundary validation。
   independent-lineage validation.
 - **What stays local:** form model, validation, value commit, CSS and command meaning.
 - **Next gate:** run the manual Windows WebView2 CJK matrix and validate one
-  independent-lineage consumer. The private Git dependency and authenticated clean CI are
-  already verified; no `0.7.4` compatibility layer will be added.
+  independent-lineage consumer. Pinned Git dependency resolution and clean CI were verified
+  while the repository was private; public distribution removes the credential prerequisite.
+  No `0.7.4` compatibility layer will be added.
 
 ### `DCA-003` Product preferences backend/result boundary
 
@@ -500,8 +501,9 @@ When reviewing a request:
 
 ## 8. Current focus
 
-- **Queued completion gates:** `DCA-001` Cards and Gentle use one pinned private Git revision
-  and pass authenticated clean CI；manual CJK and independent-lineage validation remain open.
+- **Queued completion gates:** `DCA-001` Cards and Gentle use one pinned Git revision and pass
+  clean CI；the public repository no longer requires dependency credentials. Manual CJK and
+  independent-lineage validation remain open.
 - **Prospective workflow validation:** `DCA-011` on the next real persisted-data change.
 - **Active workflow validation:** `DCA-009` is narrowed to a consumer-owned entrypoint
   convention; two local wrappers remain before implementation planning. `DCA-010` is deferred

@@ -2,7 +2,7 @@
 
 Evidence date：2026-08-25
 
-Consumer：`/Users/ladesine/Documents/Github/Deductree`
+Consumer：workspace sibling `Deductree`
 
 本例重建兩個已存在的 contract decisions，不提出格式變更：
 
