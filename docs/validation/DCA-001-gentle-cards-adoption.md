@@ -50,19 +50,19 @@ present on `origin/develop`, and was not introduced by the adoption source edit.
 
 ## Distribution result
 
-Cards now uses the private Git repository pinned to
+At validation time, Cards used the then-private Git repository pinned to
 `afc7c77a732ebac56f46561f2d75c04522d8b5bc`. Its lockfile records the same full
 source revision, and locked tests, desktop bundling and launch checks pass
 without a sibling checkout.
 
-GitHub Actions uses the read-only `consumer-actions-readonly` deploy key through
+At validation time, GitHub Actions used the read-only `consumer-actions-readonly` deploy key through
 the `DIOXUS_COMMON_ABILITIES_SSH_KEY` repository secret. The manually dispatched
 [`develop` workflow run 32841974744](https://github.com/yam276/gentle-cards/actions/runs/32841974744)
 passed all three jobs on a clean runner；the app job authenticated, fetched the
 pinned private revision, then passed format, Clippy and all 109 tests.
 
-Developers still need credentials that can read the private repository. They do
-not need a sibling checkout.
+The later public-repository conversion removes the credential requirement. A
+sibling checkout remains unnecessary.
 
 ## Remaining manual matrix
 

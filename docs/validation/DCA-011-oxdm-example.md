@@ -2,7 +2,7 @@
 
 Evidence date：2026-08-25
 
-Consumer：`/Users/ladesine/Documents/Github/oxdm`
+Consumer：workspace sibling `oxdm`
 
 本例重建已存在的 migration boundary：舊版 `config.toml` plaintext credentials
 遷移到 system keychain，同時讓普通 preferences、device metadata 與 secret values

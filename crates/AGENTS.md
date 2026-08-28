@@ -5,7 +5,7 @@ These rules apply to code under `crates/` in addition to the repository root
 
 ## Quality gate
 
-Run from `/Users/ladesine/Documents/Github/dioxus-common-abilities`:
+Run from the repository root:
 
 ```bash
 cargo fmt --all -- --check

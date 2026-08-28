@@ -16,10 +16,11 @@ Validation：`docs/validation/DCA-001-dioxus-input.md`
   and the desktop feature check passing.
 - Gentle upgraded from Dioxus `0.7.4` to `0.7.9`, then migrated five manual
   guards with 63 tests, Clippy and desktop bundle/launch checks passing.
-- Cards and Gentle consume the same private Git revision, with locked desktop
+- Cards and Gentle consume the same pinned Git revision, with locked desktop
   builds and launch smoke tests passing without a sibling checkout.
-- Cards and Gentle resolve the pinned private revision in clean GitHub Actions
-  runners through one read-only deploy key；both complete workflows pass.
+- Cards and Gentle resolved the pinned revision in clean GitHub Actions runners
+  through one read-only deploy key while the repository was private；both complete
+  workflows passed. Public distribution removes that credential prerequisite.
 - Independent-lineage validation remains outstanding.
 - The manual WebView2 CJK matrix remains outstanding.
 
@@ -78,5 +79,5 @@ commits, or either keyboard-composition source is ignored.
 - no default renderer/router/launch/logger dependency
 - all accepted public methods documented
 - Cards adoption evidence is recorded without moving product behavior into the crate
-- authenticated clean-CI resolution of the pinned private Git dependency
+- clean-CI resolution of the pinned Git dependency without a sibling checkout
 - Catalog status remains `Planned` until consumer validation is complete

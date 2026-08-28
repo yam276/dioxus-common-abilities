@@ -5,3 +5,7 @@ members = [
     "crates/dioxus-input",
 ]
 resolver = "2"
+
+[workspace.package]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/yam276/dioxus-common-abilities"

@@ -20,6 +20,10 @@ candidate status belongs only in `COMMON_CAPABILITY_WISHLIST.md`.
 
 ### Governance
 
+- license the repository under `MIT OR Apache-2.0` while keeping every runtime
+  crate excluded from crates.io publication
+- prepare public Git distribution with package metadata, credential-free
+  consumer guidance, portable documentation paths and a repository CI gate
 - establish the shared `AGENTS.md` baseline and `CLAUDE.md` compatibility entrypoint
 - centralize the verified `yam276` repository identity preflight
 - centralize regression-proof, Rust, Dioxus and quality-gate behavioral rules

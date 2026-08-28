@@ -5,6 +5,9 @@ edition = "2021"
 rust-version = "1.83"
 publish = false
 description = "Pointer-origin state for reliable Dioxus backdrop dismissal"
+license.workspace = true
+repository.workspace = true
+readme = "README.md"
 
 [lints.rust]
 unsafe_code = "forbid"
