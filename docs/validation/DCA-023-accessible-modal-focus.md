@@ -1,6 +1,6 @@
 # DCA-023 Accessible Modal Focus Validation
 
-Status：shared fixture and Gentle Cards green; Deductree adoption remains open
+Status：complete; shared fixture and both required consumer adoptions green
 
 Evidence date：2026-08-28
 
@@ -192,10 +192,39 @@ prove that the real surface installs no containment handler. Together with the
 active-element observations before and after the nested lifecycle, this is the
 required failing-before-fix desktop receipt.
 
-## Next gate
+#### Adoption receipt
 
-Pin the same reviewed shared revision in Deductree and replace only the outer
-Cast Library and nested asset picker's focus lifecycles. Preserve their existing
-backdrop and catalog-edit policy, add the nested picker's product-owned
-accessible name, and record the hidden desktop-WebView nested receipt. OxDM
-remains explicitly out of scope.
+Deductree commit `c98f0f3f9f1887be4eabb1658201db1d0069869a` pins
+`dioxus-focus-scope` and the existing backdrop helper to reviewed shared
+revision `acd3e513fab7ec370c4e7a241ed5585770a7a75a`. The outer Cast Library and
+nested asset picker bind independent shared scopes while Deductree retains
+their existing backdrop-dismiss state, close controls, catalog edits, dialog
+markup, styling and copy. The nested picker now owns a labelled title.
+
+The passing probe used the same actual Story Editor surface and one in-memory
+character as the failing receipt. It launched the desktop WebView hidden,
+did not activate or control the foreground application, did not edit or persist
+the story, printed one receipt to stderr and was removed after the run.
+
+| Check | Observed | Result |
+|---|---|---|
+| Outer semantics and initial focus | The Cast Library root is a labelled modal dialog, is programmatically focusable, and receives focus inside on mount | Pass |
+| Nested semantics and active scope | The picker is a labelled modal dialog and becomes the only active shared scope while mounted | Pass |
+| Forward and reverse containment | Cancelable Tab and Shift+Tab dispatch wraps inside the picker, then inside the resumed outer Cast Library | Pass |
+| No-tabbable fallback | Temporarily disabling every picker control keeps focus safely on the picker root | Pass |
+| Nested restoration | Closing the picker returns focus to the asset-field opener inside the Cast Library | Pass |
+| Outer restoration | Closing the Cast Library returns focus to the Story Toolbar opener | Pass |
+| Cleanup | Closing the final scope removes the shared listener and registry | Pass |
+| Automated gate | Format, warning-free Clippy for both packages, all 43 core tests, and all 128 focused Story Editor tests completed | Pass |
+
+Native trusted Tab traversal remains covered by the standalone real-browser
+fixture. The hidden consumer probe verifies the actual Deductree renderer wiring
+and nested lifecycle without taking foreground focus.
+
+## Conclusion
+
+`dioxus-focus-scope` satisfies DCA-023's shared boundary at one reviewed
+revision across Gentle Cards and Deductree. The crate owns focus lifecycle only;
+ARIA composition, Escape, backdrop and domain cancellation remain consumer
+policy. DCA-023 is complete and its plan is archived under `docs/done/`. OxDM
+was not adopted or used as a required validator.

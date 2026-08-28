@@ -31,6 +31,10 @@ candidate status belongs only in `COMMON_CAPABILITY_WISHLIST.md`.
 - replace the rejected first-party focus behavior in the standalone DCA-023
   fixture and pass trusted browser checks for basic, nested, dynamic, empty,
   disabled-target and disconnected-opener lifecycles
+- complete DCA-023 adoption against reviewed revision `acd3e51` in Gentle Cards
+  commit `54fc8d4` and Deductree commit `c98f0f3`, preserving consumer-owned
+  dialog, Escape, backdrop and domain policy while passing both product gates
+  and runtime receipts
 - split `DCA-002` into backdrop gesture, toast queue and modal focus contracts,
   then validate and implement only the renderer-neutral backdrop pointer state
 - adopt the same-pointer backdrop truth table in Cards, Gentle and

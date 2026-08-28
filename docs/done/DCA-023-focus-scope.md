@@ -1,6 +1,6 @@
 # DCA-023 Focus-scope Implementation Plan
 
-Status：active
+Status：done
 
 Catalog：`DCA-023`
 
@@ -21,7 +21,9 @@ Validation：`docs/validation/DCA-023-accessible-modal-focus.md`
 - Gentle Cards adopted the reviewed `acd3e51` revision in consumer commit
   `54fc8d460298e106b4a945a48d4e7b8525b2df62`; its automated gates, web build
   and manual desktop runtime receipt pass.
-- Deductree nested adoption remains outstanding.
+- Deductree adopted the same reviewed revision in consumer commit
+  `c98f0f3f9f1887be4eabb1658201db1d0069869a`; its complete pre-commit gate and
+  hidden desktop-WebView nested lifecycle receipt pass.
 
 ## Scope
 
@@ -127,6 +129,19 @@ foreground application.
 3. Keep DCA-023 `Planned` until both required consumers pass runtime receipts.
 4. When all completion criteria hold, move this plan to `docs/done/`, remove the
    wishlist entry and record the result in `CHANGELOG.md`.
+
+Status：**COMPLETE — 2026-08-28**
+
+- The validation record names reviewed common revision
+  `acd3e513fab7ec370c4e7a241ed5585770a7a75a`, Gentle Cards commit
+  `54fc8d460298e106b4a945a48d4e7b8525b2df62`, and Deductree commit
+  `c98f0f3f9f1887be4eabb1658201db1d0069869a`.
+- The crate README documents root binding, optional initial focus, cleanup, and
+  the consumer-owned semantic and cancellation boundary.
+- Both required consumers passed their automated gates and runtime receipts.
+  OxDM remained outside the adoption and validation scope.
+- The implementation plan is archived under `docs/done/`, the active wishlist
+  record is removed, and the completed outcome is recorded in `CHANGELOG.md`.
 
 ## Completion criteria
 
