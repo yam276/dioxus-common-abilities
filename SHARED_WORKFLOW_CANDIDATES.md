@@ -151,17 +151,18 @@ consumers are both represented.
 Two independent products expose the same entrypoint semantics, including clean
 failure propagation and a docs-only path.
 
-**2026-08-28 validation result**
+**2026-08-28 feasibility result**
 
-Cards and ShinyColors support a common selection, explanation, execution and
-result contract, but not a common command list or implementation tool. Required
-manual or platform-unavailable evidence must remain pending and non-green. The
-accepted boundary and remaining two-consumer prototype gate are recorded in
+The viable boundary is narrower than the first model: a shared convention for
+explicit `docs`, `code` and `release` intent plus honest pass/fail/pending
+results. The wrapper and complete commands remain consumer-owned; current
+evidence does not justify a shared process runner or require `DCA-010`.
+The remaining two-consumer prototype gate is recorded in
 `docs/validation/DCA-009-010-quality-gate-interface.md`.
 
 ## 4. Change-impact target matrix
 
-**Status:** `Ready to design`
+**Status:** `Incubate`; central catalog status is `Deferred`
 
 **Evidence**
 
@@ -195,13 +196,14 @@ the matrix from prose scattered across several files.
 First model Gentle Cards WASM and ShinyColors Canvas because they exercise
 different kinds of boundaries. Reject any format that cannot express both simply.
 
-**2026-08-28 validation result**
+**2026-08-28 feasibility result**
 
-Both cases fit a neutral model of local check IDs, local predicates,
-dependencies, availability and automated-versus-owner evidence. Technology
-names remain local values rather than shared schema fields. `DCA-009` consumes
-this model, but remains a separate candidate because invocation and impact data
-have different owners. See
+Concrete selectors failed the value/completeness gate. Cards file lists become
+stale when a new `cfg(wasm32)` appears, while ShinyColors Canvas behavior has
+Rust producers outside `src/canvas/**` and visible smoke is a plan milestone,
+not a path property. Safe broad rules collapse into the explicit `code` gate;
+arbitrary predicates merely hide product scripts behind another syntax.
+The catalog therefore defers `DCA-010`; see
 `docs/validation/DCA-009-010-quality-gate-interface.md`.
 
 ## 5. Regression proof with a negative case

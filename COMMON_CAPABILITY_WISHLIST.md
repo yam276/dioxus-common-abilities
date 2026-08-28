@@ -138,8 +138,8 @@ boundary validation。
 | `DCA-006` | Product diagnostics bootstrap | crate | `Evidence-backed` | `P1` |
 | `DCA-007` | Dioxus app-shell paved-road recipes | documentation | `Observed` | `P2` |
 | `DCA-008` | Active-work document routing | agent workflow | `Evidence-backed` | `P1` |
-| `DCA-009` | One quality-gate entrypoint | tool/workflow | `Validating` | `P1` |
-| `DCA-010` | Change-impact target matrix | tool/workflow | `Validating` | `P1` |
+| `DCA-009` | One quality-gate entrypoint | workflow/convention | `Validating` | `P1` |
+| `DCA-010` | Change-impact target matrix | tool/workflow | `Deferred` | `P1` |
 | `DCA-011` | Persisted-data evolution checklist | template/workflow | `Validating` | `P0` |
 | `DCA-012` | Version-identity map | template/rule | `Evidence-backed` | `P1` |
 | `DCA-013` | Localization completeness workflow | template/workflow | `Evidence-backed` | `P1` |
@@ -266,37 +266,40 @@ boundary validation。
 
 ### `DCA-009` One quality-gate entrypoint
 
-- **Kind:** tool/workflow
+- **Kind:** workflow/convention
 - **Status:** `Validating`
 - **Priority:** `P1`
 - **Problem:** every repository has a gate, but agents must reconstruct different commands and
   change classes from prose.
-- **Common invariant:** one discoverable entrypoint runs the complete local gate and propagates
-  failures.
+- **Common invariant:** one discoverable, consumer-owned entrypoint runs the explicitly selected
+  local gate class and reports failure or pending evidence honestly.
 - **Evidence:** section 3 of `SHARED_WORKFLOW_CANDIDATES.md` and
   `docs/validation/DCA-009-010-quality-gate-interface.md`.
-- **Candidate consumers:** Gentle Cards and ShinyColors first because their gates differ most.
+- **Candidate consumers:** Gentle Cards plus Pedigoo for code/docs behavior; ShinyColors remains
+  the release-receipt counterexample.
 - **What stays local:** commands, packages, platforms, features and packaging policy.
-- **Next gate:** add consumer-owned Cards and ShinyColors prototypes with the same plan/run,
-  explanation, pending-receipt and failure semantics. Do not select shell, PowerShell, `just`
-  or `xtask` centrally.
+- **Next gate:** add two small consumer-owned wrappers with explicit `docs`/`code`, failure
+  propagation and no silent skip; at least one later validates `release` with a pending owner
+  receipt. Do not build a shared process runner from current evidence.
 
 ### `DCA-010` Change-impact target matrix
 
 - **Kind:** tool/workflow
-- **Status:** `Validating`
+- **Status:** `Deferred`
 - **Priority:** `P1`
 - **Problem:** host/default builds miss feature-, target-, Canvas- and release-only code.
-- **Common invariant:** changed surfaces select every matrix arm capable of owning their
-  failure.
+- **Common invariant:** every target, feature or runtime capable of owning a failure must be
+  checked, but a changed-file set may not be sufficient to select it safely.
 - **Evidence:** section 4 of `SHARED_WORKFLOW_CANDIDATES.md` and
   `docs/validation/DCA-009-010-quality-gate-interface.md`.
 - **Candidate consumers:** Gentle Cards WASM and ShinyColors Canvas; Gentle feature profiles
   and OxDM dev-only mocks follow.
-- **What stays local:** predicates, targets, features, environments and commands.
-- **Next gate:** encode local Cards WASM/release and ShinyColors Canvas/Windows-receipt rules;
-  add mutation tests proving each special arm is selected, with no product-specific fields in
-  the shared schema. Pair validation with `DCA-009`.
+- **What stays local:** predicates, semantic impact judgment, targets, features, environments,
+  commands and milestone receipts.
+- **Next gate:** deferred because concrete Cards and ShinyColors selectors were either stale,
+  incomplete or so broad that they collapsed into the explicit `code` gate. Reopen only after
+  two independent repositories already use machine-readable matrices and measure safe,
+  meaningful work avoidance beyond `DCA-009`.
 
 ### `DCA-011` Persisted-data evolution checklist
 
@@ -500,8 +503,9 @@ When reviewing a request:
 - **Queued completion gates:** `DCA-001` Cards and Gentle use one pinned private Git revision
   and pass authenticated clean CI；manual CJK and independent-lineage validation remain open.
 - **Prospective workflow validation:** `DCA-011` on the next real persisted-data change.
-- **Active tool validation:** `DCA-009` plus `DCA-010` have an accepted semantic boundary;
-  two consumer-owned prototypes remain before implementation planning.
+- **Active workflow validation:** `DCA-009` is narrowed to a consumer-owned entrypoint
+  convention; two local wrappers remain before implementation planning. `DCA-010` is deferred
+  after concrete selectors failed the completeness/value gate.
 
 Only one focus changes status at a time. New evidence may be recorded for other entries without
 silently starting their implementation.
