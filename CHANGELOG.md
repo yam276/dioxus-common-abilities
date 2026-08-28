@@ -39,6 +39,9 @@ candidate status belongs only in `COMMON_CAPABILITY_WISHLIST.md`.
   then validate and implement only the renderer-neutral backdrop pointer state
 - adopt the same-pointer backdrop truth table in Cards, Gentle and
   Deductree/Diolama while preserving OxDM's already-safe close-on-down policy
+- complete DCA-002 with hidden desktop-WebView pointer matrices on Gentle Cards'
+  shared modal and Deductree's journal overlay, covering both cross-boundary
+  directions, cancellation, mismatched pointers and same-pointer dismissal
 - accept `DCA-001` for planning on Dioxus 0.7.9 after comparing Cards' extracted
   guard, its label-editor near-copy, Gentle's manual guards and Dioxus keyboard events
 - migrate Cards' canonical guard and label-editor near-copy to `dioxus-input`, preserving

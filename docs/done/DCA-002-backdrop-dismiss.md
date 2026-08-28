@@ -1,6 +1,6 @@
 # DCA-002 Backdrop-dismiss Implementation Plan
 
-Status：active
+Status：done
 
 Catalog：`DCA-002`
 
@@ -20,7 +20,8 @@ Validation：`docs/validation/DCA-002-transient-surface-boundary.md`
 - OxDM remains unchanged because its panel stops the initial `mousedown` and the
   backdrop closes immediately only when that down begins outside.
 - All automated package and consumer gates pass.
-- Runtime pointer-drag smoke remains open.
+- Runtime pointer matrices pass in Gentle Cards' actual shared `Modal` and
+  Deductree's actual `JournalOverlay` at their current consumer revisions.
 
 ## Scope
 
@@ -79,6 +80,24 @@ map every terminal event to the accepted state machine.
 2. Keep `DCA-002` short of `Done` until a pointer-drag runtime smoke confirms
    event wiring on one desktop WebView and one browser/WebView consumer.
 3. Do not start `DCA-022` or `DCA-023` as part of this work.
+
+Status：**COMPLETE — 2026-08-28**
+
+- The validation record retains implementation revision
+  `0d2adc322b6f14057b59b0005cf8e19d9b46a6c5` and every original adoption
+  commit. Gentle still pins that revision; later Cards and Deductree revisions
+  pin descendant `acd3e513fab7ec370c4e7a241ed5585770a7a75a`, whose backdrop crate is
+  unchanged.
+- Temporary hidden desktop-WebView probes exercised the actual Cards `Modal`
+  and Deductree `JournalOverlay` event adapters. Both passed same-pointer close,
+  both cross-boundary directions, cancellation and mismatched-pointer checks.
+- Probe code was removed after each run. Both consumer worktrees were clean,
+  Cards bypassed its backend, and no user document or database was modified.
+- Common, Cards and Gentle gates pass at the recorded revisions. Deductree and
+  Diolama retain the complete green gates recorded with their current adoption
+  commits.
+- The plan is archived under `docs/done/`, its active wishlist record is
+  removed, and the completed outcome is recorded in `CHANGELOG.md`.
 
 ## Completion criteria
 

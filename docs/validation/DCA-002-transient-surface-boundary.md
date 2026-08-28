@@ -1,8 +1,10 @@
 # DCA-002 Transient-surface Boundary Validation
 
-Status：backdrop state accepted for planning; split accepted
+Status：complete; backdrop state adopted and runtime-validated
 
 Evidence date：2026-08-25
+
+Completion date：2026-08-28
 
 Dioxus baseline：`0.7.9`
 
@@ -36,14 +38,15 @@ lifecycle and toast queue have different owners, terminal events and failure
 modes. Combining them would make consumers depend on behavior they do not use
 and would hide unresolved policy differences behind a generic component.
 
-The catalog now records:
+At this boundary-validation gate, the catalog recorded:
 
 1. `DCA-002` Backdrop-dismiss gesture state, promoted to `Planned`;
 2. `DCA-022` Stable toast queue lifecycle, retained at `Evidence-backed`;
 3. `DCA-023` Accessible modal focus lifecycle, retained at `Observed`.
 
-Only `DCA-002` is `Planned`. `DCA-022` and `DCA-023` remain outside
-implementation scope.
+Only `DCA-002` advanced to `Planned` at that gate. `DCA-022` and `DCA-023`
+remained outside this implementation scope and continued through their own
+independent lifecycle decisions.
 
 ## Current modal evidence
 
@@ -164,9 +167,10 @@ This boundary validation passes when:
   mismatched pointer identity;
 - no shared implementation is started before the candidate's next gate.
 
-All criteria above are satisfied. `DCA-002` may move to `Planned`; its executable
-plan is `docs/active/DCA-002-backdrop-dismiss.md`. The next work is the pure
-state crate and consumer adapters, not a modal component and not a toast crate.
+All criteria above were satisfied at the boundary-validation gate. `DCA-002`
+then advanced to `Planned`; its completed implementation plan is archived at
+`docs/done/DCA-002-backdrop-dismiss.md`. The delivered mechanism is the pure
+state crate and thin consumer adapters, not a modal component or toast crate.
 
 ## Implementation evidence
 
@@ -187,10 +191,9 @@ dependency would make that contract undistributable. Its module cites `DCA-002`
 and can switch to the shared package once that package has an approved public
 identity.
 
-`DCA-002` remains `Planned`, not `Done`. Pointer event propagation is GUI
-behavior, so compilation and pure state tests do not prove the RSX wiring. The
-remaining gate is a runtime matrix on one Cards/Gentle surface and one
-Deductree/Diolama surface:
+Pointer event propagation is GUI behavior, so compilation and pure state tests
+did not by themselves prove the RSX wiring. The final gate was a runtime matrix
+on one Cards/Gentle surface and one Deductree/Diolama surface:
 
 | Gesture | Expected |
 |---|---|
@@ -198,3 +201,47 @@ Deductree/Diolama surface:
 | Panel down, drag outside, release | Stay open |
 | Backdrop down, drag inside, release | Stay open |
 | Cancelled pointer gesture | Stay open; next legitimate backdrop gesture closes once |
+
+## Runtime acceptance receipts
+
+The final probes ran on 2026-08-28 in hidden desktop WebViews. Each probe used
+cancelable pointer events against the consumer's actual rendered backdrop and
+panel, so Dioxus event propagation, `pointer_id()` extraction, propagation
+stops, state transitions and product close callbacks all remained in the path.
+They did not attempt to infer native cursor geometry from JavaScript.
+
+| Consumer surface | Current commit | Shared backdrop source | Result |
+|---|---|---|---|
+| Gentle Cards shared `Modal` | `54fc8d460298e106b4a945a48d4e7b8525b2df62` | descendant pin `acd3e513fab7ec370c4e7a241ed5585770a7a75a` | Pass |
+| Deductree `JournalOverlay` | `c98f0f3f9f1887be4eabb1658201db1d0069869a` | descendant pin `acd3e513fab7ec370c4e7a241ed5585770a7a75a` | Pass |
+
+| Gesture | Cards observed | Deductree observed | Result |
+|---|---|---|---|
+| Panel down A, backdrop up A | Close callback count remained zero | Journal remained mounted | Pass |
+| Backdrop down A, panel up A | Close callback count remained zero | Journal remained mounted | Pass |
+| Backdrop down A, cancel A, later up A | No close and no stale arm | No close and no stale arm | Pass |
+| Backdrop down A, backdrop up B | No close; Cards then accepted A, proving B did not erase it | No close; A was cancelled before the next gesture | Pass |
+| Backdrop down A, backdrop up A | Exactly one new close callback | Journal unmounted | Pass |
+
+The Cards probe exited before its SQLite/backend startup. The Deductree probe
+used the in-memory app context and did not enter a persistence path. Both probes
+were removed immediately after the run, both consumer worktrees returned clean,
+and neither hidden window activated the foreground application.
+
+Current gate receipts remain green:
+
+- common workspace formatter, warning-denied Clippy, and 16 tests;
+- Gentle Cards formatter, warning-denied Clippy, and 109 tests;
+- Gentle formatter plus warning-denied default/adult Clippy and 63/85 tests;
+- Deductree current adoption commit's formatter, both warning-denied Clippy
+  gates, 43 core tests and 128 focused Story Editor tests;
+- Diolama's original adoption gate recorded above, including 622 tests and its
+  private truth-table coverage.
+
+## Conclusion
+
+`dioxus-backdrop-dismiss` satisfies the DCA-002 truth table across the Gentle
+lineage and an independent Deductree/Diolama lineage without owning close,
+Escape, focus, markup or domain policy. OxDM remains unchanged because its
+close-on-backdrop-down policy already rejects gestures that begin inside.
+DCA-002 is complete and its plan is archived under `docs/done/`.

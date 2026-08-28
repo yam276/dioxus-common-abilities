@@ -132,7 +132,6 @@ boundary validation。
 | ID | Candidate | Kind | Status | Priority |
 |---|---|---|---|---|
 | `DCA-001` | Dioxus IME composition and shortcut layer | crate | `Planned` | `P0` |
-| `DCA-002` | Backdrop-dismiss gesture state | crate | `Planned` | `P1` |
 | `DCA-003` | Product preferences backend/result boundary | crate | `Evidence-backed` | `P1` |
 | `DCA-004` | Product i18n locale/fallback boundary | crate | `Evidence-backed` | `P1` |
 | `DCA-005` | Background task ownership/progress contract | crate/workflow | `Evidence-backed` | `P1` |
@@ -173,28 +172,6 @@ boundary validation。
 - **Next gate:** run the manual Windows WebView2 CJK matrix and validate one
   independent-lineage consumer. The private Git dependency and authenticated clean CI are
   already verified; no `0.7.4` compatibility layer will be added.
-
-### `DCA-002` Backdrop-dismiss gesture state
-
-- **Kind:** crate
-- **Status:** `Planned`
-- **Priority:** `P1`
-- **Problem:** HTML click ancestry can dismiss a dialog after a press begins inside the panel
-  and ends on the backdrop. Cards fixed that fork-local bug with pointer-origin state, while
-  Gentle still uses `onclick` and OxDM deliberately closes on backdrop `mousedown`.
-- **Common invariant:** a release-based backdrop policy emits dismiss only when the same
-  pointer gesture begins and ends on the backdrop; panel release, pointer cancellation and
-  unrelated pointer IDs cannot leave armed state or dismiss accidentally.
-- **Evidence:** Gentle Cards commit `ea6e36e`, the current Cards/Gentle modal divergence and
-  OxDM's opposing `DialogOverlay` semantics, recorded in
-  `docs/validation/DCA-002-transient-surface-boundary.md`.
-- **Candidate consumers:** Gentle Cards as the reference, Gentle as the known stale sibling and
-  OxDM as the independent opposing-policy check.
-- **What stays local:** open/close policy, disabled or busy states, markup, CSS, panel contents,
-  Escape meaning, focus behavior and accessibility composition.
-- **Next gate:** run the pointer-drag runtime matrix in one Cards/Gentle WebView or browser and
-  one Deductree/Diolama desktop surface. The shared crate and all source adapters compile and
-  pass their automated gates; runtime event wiring is the remaining `Done` gate.
 
 ### `DCA-003` Product preferences backend/result boundary
 
@@ -516,8 +493,6 @@ When reviewing a request:
 
 ## 8. Current focus
 
-- **Active validation:** `DCA-002` implementation and source adoption are complete; run the
-  cross-boundary pointer-drag runtime matrix before marking it `Done`.
 - **Queued completion gates:** `DCA-001` Cards and Gentle use one pinned private Git revision
   and pass authenticated clean CI；manual CJK and independent-lineage validation remain open.
 - **Prospective workflow validation:** `DCA-011` on the next real persisted-data change.
