@@ -18,7 +18,10 @@ Validation：`docs/validation/DCA-023-accessible-modal-focus.md`
 - The standalone fixture passes trusted browser Tab and Shift+Tab checks for
   basic, nested, dynamic and empty scopes, plus disabled-target and
   disconnected-opener fallbacks.
-- Gentle Cards and Deductree adoption remain outstanding.
+- Gentle Cards adopted the reviewed `acd3e51` revision in consumer commit
+  `54fc8d460298e106b4a945a48d4e7b8525b2df62`; its automated gates, web build
+  and manual desktop runtime receipt pass.
+- Deductree nested adoption remains outstanding.
 
 ## Scope
 

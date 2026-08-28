@@ -525,15 +525,18 @@ boundary validation。
   Library confirms missing outer and inner initial focus, no Tab interception and failed inner
   opener restoration. The resulting `dioxus-focus-scope` crate now passes the standalone real-
   browser matrix for basic, nested, dynamic, empty, disabled-target and disconnected-opener
-  lifecycles without owning Escape or dialog markup.
-- **Candidate consumers:** Gentle Cards first, then Deductree's nested Cast Library picker.
+  lifecycles without owning Escape or dialog markup. Gentle Cards consumer commit `54fc8d4`
+  pins reviewed shared revision `acd3e51` and passes its automated gate, complete web build and
+  manual desktop containment, Escape, restoration and backdrop-policy receipt.
+- **Candidate consumers:** Gentle Cards is complete; Deductree's nested Cast Library picker is
+  the remaining required consumer.
   Diolama remains the behavior reference rather than a dependency; OxDM is not a required
   validator or adopter.
 - **What stays local:** dialog contents, default button choice, allowed cancellation sources,
   busy/closing states, styling, copy, icons and domain action generations.
-- **Next gate:** adopt the reviewed `dioxus-focus-scope` revision in Gentle Cards, preserve its
-  existing close/backdrop policy, add product-owned dialog semantics and record a trusted browser
-  receipt before beginning Deductree's nested adoption.
+- **Next gate:** adopt the same reviewed `dioxus-focus-scope` revision in Deductree's outer Cast
+  Library and nested asset picker, preserve local backdrop and catalog-edit policy, add the nested
+  accessible name and record the hidden desktop-WebView receipt.
 
 ## 7. Triage rules
 
@@ -555,7 +558,8 @@ When reviewing a request:
   and pass authenticated clean CI；manual CJK and independent-lineage validation remain open.
 - **Prospective workflow validation:** `DCA-011` on the next real persisted-data change.
 - **Planned focus scope:** `DCA-023` now has a standalone browser-validated shared crate;
-  Gentle Cards is the next adoption gate, followed by Deductree's nested Cast picker.
+  Gentle Cards has passed its adoption gate and Deductree's nested Cast picker is the final
+  required consumer.
 - **Next tool candidate after governance validation:** `DCA-009` plus `DCA-010`.
 
 Only one focus changes status at a time. New evidence may be recorded for other entries without

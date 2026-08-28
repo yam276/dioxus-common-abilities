@@ -1,8 +1,8 @@
 # DCA-023 Accessible Modal Focus Validation
 
-Status：shared fixture green; Gentle Cards and Deductree adoption remain open
+Status：shared fixture and Gentle Cards green; Deductree adoption remains open
 
-Evidence date：2026-08-26
+Evidence date：2026-08-28
 
 Dioxus baseline：`0.7.9`
 
@@ -140,6 +140,29 @@ This consumer run confirms that Cards is a good first adopter: it already has
 an internal initial-focus target, but semantics, containment and opener
 restoration are separate missing capabilities.
 
+#### Adoption receipt
+
+Gentle Cards commit `54fc8d460298e106b4a945a48d4e7b8525b2df62`
+pins all three common Dioxus abilities to reviewed shared revision
+`acd3e513fab7ec370c4e7a241ed5585770a7a75a`. Its existing modal root now owns
+the shared scope lifecycle while Cards retains backdrop dismissal, Escape,
+confirmation actions, styling and dialog markup.
+
+| Check | Observed | Result |
+|---|---|---|
+| Initial target | The existing focusable confirmation body remains the preferred target and first scope control | Pass |
+| Forward and reverse containment | Manual desktop Tab and Shift+Tab traversal remained inside the dialog and wrapped in both directions | Pass |
+| Dialog semantics | The consumer emits `role=dialog`, `aria-modal=true` and an accessible label; all three are present in the final web build | Pass |
+| Escape ownership | The duplicate confirmation-body Escape branch was removed; one Escape closed the dialog once | Pass |
+| Focus restoration | Closing returned focus to the button that opened the confirmation | Pass |
+| Backdrop policy | Pressing inside and releasing outside still did not dismiss the dialog | Pass |
+| Automated gate | Format, warning-free Clippy and five test suites with 109 passing tests completed | Pass |
+| Web target | A complete Dioxus `0.7.9` web build completed with the shared activation and cleanup scripts in the final WASM | Pass |
+
+The interactive rows are the user's foreground desktop receipt from
+2026-08-28. They supplement rather than replace the standalone trusted-browser
+matrix, which already covers dynamic, empty, disabled and disconnected cases.
+
 ### Deductree Cast Library
 
 Deductree `7aecf3705b47f7699076a10a522c110004cc76ed` was inspected and exercised at
@@ -171,8 +194,8 @@ required failing-before-fix desktop receipt.
 
 ## Next gate
 
-Pin the reviewed shared revision in Gentle Cards and replace only its focus
-lifecycle. Preserve Cards' backdrop, Escape and confirmation-generation policy;
-add dialog semantics in Cards itself. Record the trusted browser receipt and
-complete local gate before beginning Deductree's nested adoption. OxDM remains
-explicitly out of scope.
+Pin the same reviewed shared revision in Deductree and replace only the outer
+Cast Library and nested asset picker's focus lifecycles. Preserve their existing
+backdrop and catalog-edit policy, add the nested picker's product-owned
+accessible name, and record the hidden desktop-WebView nested receipt. OxDM
+remains explicitly out of scope.
